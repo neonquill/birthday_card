@@ -128,7 +128,6 @@ main(void) {
     }
 
     for (j = 0; j < ticks; j++) {
-      _delay_ms(32);
       /*
        * Sleep, using the watchdog.
        * We keep WDE set to 0, because we don't need the reset functionality.
@@ -138,11 +137,9 @@ main(void) {
        * With 10 ticks per beat, this is 188 beats per minute.
        * WDP[3:0] = 0001 = 4k cycles, or about 32 ms.
        */
-      /*
       WDTCR = (1 << WDTIE) | (1 << WDP0);
       wdt_reset();
       sleep_mode();
-      */
     }
   }
 
