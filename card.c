@@ -118,12 +118,10 @@ main(void) {
     ticks = pgm_read_byte(&(note->ticks));
 
     if (pitch == 0) {
-      /*
       TCCR0A = 0;
       PORTB = 0x3e;
-      */
     } else {
-      /* TCCR0A = (1 << COM0A0) | (1 << WGM01); */
+      TCCR0A = (1 << COM0A0) | (1 << WGM01);
       OCR0A = pitch;
     }
 
