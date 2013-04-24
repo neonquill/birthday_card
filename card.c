@@ -5,6 +5,7 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 
+#define NOTEP(v) {v, 4}, {0, 1}
 #define NOTE1(v) {v, 9}, {0, 1}
 #define NOTE2(v) {v, 19}, {0, 1}
 #define NOTE3(v) {v, 29}, {0, 1}
@@ -27,7 +28,7 @@ struct note {
 };
 
 enum {
-  NOTE_COUNT = 76
+  NOTE_COUNT = 78
 };
     
 const struct note song[NOTE_COUNT] PROGMEM =
@@ -39,7 +40,7 @@ const struct note song[NOTE_COUNT] PROGMEM =
   NOTE1(G4), NOTE1(A4), NOTE1(B4),
   NOTE2(C5), NOTE3(E5),
   NOTE1(E5), NOTE1(D5), NOTE1(C5),
-  NOTE5(B4),
+  NOTE5(B4), NOTEP(0),
   NOTE1(G4), NOTE1(A4), NOTE1(B4),
   NOTE2(C5), NOTE3(E5),
   NOTE1(E5), NOTE1(D5), NOTE1(C5),
