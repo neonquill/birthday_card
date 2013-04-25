@@ -2,8 +2,14 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/wdt.h>
-#include <avr/sleep.h>
 #include <util/delay.h>
+
+/* Typo in the attiny definition. */
+
+#define BODSE BPDSE
+#define BODS BPDS
+
+#include <avr/sleep.h>
 
 #define NOTEP(v) {v, 4}, {0, 1}
 #define NOTE1(v) {v, 9}, {0, 1}
@@ -138,12 +144,9 @@ main(void) {
   WDTCR = 0;
   wdt_reset();
 
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   while (1) {
-    /*
-    PORTB = 0x3f;
-    _delay_ms(500);
-    PORTB = 0x3c;
-    _delay_ms(500);
-    */
+    sleep_bod_disable();
+    sleep_mode();
   }
 }
