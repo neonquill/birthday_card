@@ -34,11 +34,12 @@ struct note {
 };
 
 enum {
-  NOTE_COUNT = 78
+  NOTE_COUNT = 80
 };
     
 const struct note song[NOTE_COUNT] PROGMEM =
 {
+  NOTE3(0),
   NOTE1(D4), NOTE1(G4), NOTE1(A4),
   NOTE2(B4), NOTE3(B4),
   NOTE1(B4), NOTE1(AS4), NOTE1(B4),
@@ -112,7 +113,7 @@ main(void) {
       PORTB &= ~(1 << PB0);
     } else {
       TCCR0A = (1 << COM0A0) | (1 << WGM01);
-      // XXX OCR0A = pitch;
+      OCR0A = pitch;
     }
 
     for (j = 0; j < ticks; j++) {
