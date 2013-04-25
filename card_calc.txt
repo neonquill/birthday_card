@@ -1,0 +1,12 @@
+clock = 128 × 1000 = 128000
+prescaler = 1 = 1
+frequency = 659 = 659
+compare = round((clock / (2 × prescaler × frequency)) - 1) = 96
+act_freq = clock/(2 × prescaler × (1 + compare)) = 659.793814433
+error = 100 × (act_freq - frequency)/frequency = 0.1204574253
+
+bpm = 188 = 188
+bps = bpm × 1/60 = 3.1333333333
+ticks_per_beat = 10 = 10
+ticks_per_second = ticks_per_beat × bps = 31.3333333333
+(1 / ticks_per_second) seconds in ms = 31.914893617 ms
