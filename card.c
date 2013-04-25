@@ -57,11 +57,11 @@ EMPTY_INTERRUPT(WDT_vect);
 void
 setup(void) {
   // Speaker on pin 5 = PB0
-  // LED on pin 6 = PB1.
+  // LEDs on pins 2, 3, 7 = PB3, PB4, PB2.
   // LED and Speaker Pin as output, initially 0,
   // the rest as inputs with pullups enabled.
-  DDRB = 0x03;
-  PORTB = 0x3c;
+  DDRB = (1 << DDB0) | (1 << DDB2) | (1 << DDB3) | (1 << DDB4);
+  PORTB = (1 << PB1) | (1 << PB5);
 
   /*
    * Setup PWM.
@@ -78,29 +78,6 @@ setup(void) {
 
   // Turn on interrupts.
   sei();
-}
-
-void
-blink(int count) {
-  int i;
-
-  for (i = 0; i < count; i ++) {
-    PORTB |= (1 << PB1);
-    _delay_ms(500);
-    PORTB &= ~(1 << PB1);
-    _delay_ms(500);
-  }
-}
-
-void
-blink_pitch(int pitch) {
-  switch (pitch) {
-  case D4: blink(1); break;
-  case G4: blink(2); break;
-  case A4: blink(3); break;
-  default: blink(10); break;
-  }
-  _delay_ms(1000);
 }
 
 int
@@ -132,7 +109,7 @@ main(void) {
     for (j = 0; j < ticks; j++) {
       count--;
       if (count <= 0) {
-        PORTB ^= (1 << PB1);
+        PORTB ^= ((1 << PB2) | (1 << PB3) | (1 << PB4));
         count = 13;
       }
 
