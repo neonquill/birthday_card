@@ -82,14 +82,17 @@ setup(void) {
 
 int
 main(void) {
-  int i, j;
+  int i, j, k;
   const struct note *note;
   uint8_t pitch, ticks;
-  int count;
+  int count[3];
+  int period[3] = {7, 5, 9};
 
   setup();
 
-  count = 13;
+  count[0] = period[0];
+  count[1] = period[1];
+  count[2] = period[2];
 
   for (i = 0, note = song;
        i < NOTE_COUNT;
@@ -107,10 +110,12 @@ main(void) {
     }
 
     for (j = 0; j < ticks; j++) {
-      count--;
-      if (count <= 0) {
-        PORTB ^= ((1 << PB2) | (1 << PB3) | (1 << PB4));
-        count = 13;
+      for (k = 0; k < 3; k++) {
+        count[k]--;
+        if (count[k] <= 0) {
+          PORTB ^= (1 << (2 + k));
+          count[k] = period[k];
+        }
       }
 
       /*
