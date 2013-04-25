@@ -108,8 +108,11 @@ main(void) {
   int i, j;
   const struct note *note;
   uint8_t pitch, ticks;
+  int count;
 
   setup();
+
+  count = 13;
 
   for (i = 0, note = song;
        i < NOTE_COUNT;
@@ -120,13 +123,19 @@ main(void) {
 
     if (pitch == 0) {
       TCCR0A = 0;
-      PORTB = 0x3e;
+      PORTB &= ~(1 << PB0);
     } else {
       TCCR0A = (1 << COM0A0) | (1 << WGM01);
-      OCR0A = pitch;
+      // XXX OCR0A = pitch;
     }
 
     for (j = 0; j < ticks; j++) {
+      count--;
+      if (count <= 0) {
+        PORTB ^= (1 << PB1);
+        count = 13;
+      }
+
       /*
        * Sleep, using the watchdog.
        * We keep WDE set to 0, because we don't need the reset functionality.
@@ -143,7 +152,7 @@ main(void) {
   }
 
   TCCR0A = 0;
-  PORTB = 0x3e;
+  PORTB = 0x3c;
   WDTCR = 0;
   wdt_reset();
 
@@ -151,7 +160,7 @@ main(void) {
     /*
     PORTB = 0x3f;
     _delay_ms(500);
-    PORTB = 0x3e;
+    PORTB = 0x3c;
     _delay_ms(500);
     */
   }
